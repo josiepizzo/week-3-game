@@ -5,9 +5,12 @@
     <title>Hang Man Game</title>
       <link rel="stylesheet" type="text/css" href="assets/css/style.css">
 
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+
       <script type="text/javascript" href="assets/js/everypage-b28d484a1c7c2779cc0ba043a653fea0.js"></script>
 
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+      <script src="assets/js/gameCode.js"></script>
+      
 </head>
 
 <body>
@@ -18,49 +21,17 @@
 
 <div class="wrapper">
   <div id="buttons">
-    <ul id="alphabet">
-      <li id="letter">a</li>
-      <li id="letter">b</li>
-      <li id="letter">c</li>
-      <li id="letter">d</li>
-      <li id="letter">e</li>
-      <li id="letter">f</li>
-      <li id="letter">g</li>
-      <li id="letter">h</li>
-      <li id="letter">i</li>
-      <li id="letter">j</li>
-      <li id="letter">k</li>
-      <li id="letter">l</li>
-      <li id="letter">m</li>
-      <li id="letter">n</li>
-      <li id="letter">o</li>
-      <li id="letter">p</li>
-      <li id="letter">q</li>
-      <li id="letter">r</li>
-      <li id="letter">s</li>
-      <li id="letter">t</li>
-      <li id="letter">u</li>
-      <li id="letter">v</li>
-      <li id="letter">w</li>
-      <li id="letter">x</li>
-      <li id="letter">y</li>
-      <li id="letter">z</li>
-    </ul>
+    <!-- Create Alphabet ul -->
   </div>
       
     <p id="catagoryName">The Chosen Category Is World Cup Winning Teams</p>
 
-    <div id="hold">
-      <ul id="my-word">
-        <li class="guess">_</li>
-        <li class="guess">_</li>
-        <li class="guess">_</li>
-        <li class="guess">_</li>
-        <li class="guess">_</li>
-      </ul>
+    <div id="hold"> 
+      <!-- Create guesses ul -->
     </div>
 
     <p id="mylives">You have 10 lives</p>
+    <p id="myScore">You have 0 wins</p>
     <p id="clue">Clue -</p>  
      <canvas id="stickman">This Text will show if the Browser does NOT support HTML5 Canvas tag</canvas>
     <div class="container">
@@ -69,276 +40,6 @@
     </div>
 </div>
 
-
-<script>
-    window.onload = function(){
-    var alphabet = [
-        'a',
-        'b',
-        'c',
-        'd',
-        'e',
-        'f',
-        'g',
-        'h',
-        'i',
-        'j',
-        'k',
-        'l',
-        'm',
-        'n',
-        'o',
-        'p',
-        'q',
-        'r',
-        's',
-        't',
-        'u',
-        'v',
-        'w',
-        'x',
-        'y',
-        'z'
-    ];
-    var categories;
-    var chosenCategory;
-    var getHint;
-    var word;
-    var guess;
-    var guesses = [];
-    var lives;
-    var counter;
-    var space;
-    var showLives = document.getElementById('mylives');
-    var showCatagory = document.getElementById('catagory');
-    var getHint = document.getElementById('hint');
-    var showClue = document.getElementById('clue');
-
-
-    var buttons = function () {
-        myButtons = document.getElementById('buttons');
-        letters = document.createElement('ul');
-        for (var i = 0; i < alphabet.length; i++) {
-            letters.id = 'alphabet';
-            list = document.createElement('li');
-            list.id = 'letter';
-            list.innerHTML = alphabet[i];
-            check();
-            myButtons.appendChild(letters);
-            letters.appendChild(list);
-        }
-
-    };
-
-    var selectCat = function () {
-        if (chosenCategory === categories[0]) {
-            catagoryName.innerHTML = 'The Chosen Category Is World Wide Soccer Teams';
-        } else if (chosenCategory === categories[1]) {
-            catagoryName.innerHTML = 'The Chosen Category Is Soccer Players';
-        } else if (chosenCategory === categories[2]) {
-            catagoryName.innerHTML = 'The Chosen Category Is World Cup Winning Teams';
-        }
-    };
-
-    result = function () {
-        wordHolder = document.getElementById('hold');
-        correct = document.createElement('ul');
-        for (var i = 0; i < word.length; i++) {
-            correct.setAttribute('id', 'my-word');
-            guess = document.createElement('li');
-            guess.setAttribute('class', 'guess');
-            if (word[i] === '-') {
-                guess.innerHTML = '-';
-                space = 1;
-            } else {
-                guess.innerHTML = '_';
-            }
-            guesses.push(guess);
-            wordHolder.appendChild(correct);
-            correct.appendChild(guess);
-        }
-    };
-
-    comments = function () {
-        showLives.innerHTML = 'You have ' + lives + ' lives';
-        if (lives < 1) {
-            showLives.innerHTML = 'Game Over';
-        }
-        for (var i = 0; i < guesses.length; i++) {
-            if (counter + space === guesses.length) {
-                showLives.innerHTML = 'You Win!';
-            }
-        }
-    };
-    var animate = function () {
-        var drawMe = lives;
-        drawArray[drawMe]();
-    };
-    canvas = function () {
-        myStickman = document.getElementById('stickman');
-        context = myStickman.getContext('2d');
-        context.beginPath();
-        context.strokeStyle = '#fff';
-        context.lineWidth = 2;
-    };
-    head = function () {
-        myStickman = document.getElementById('stickman');
-        context = myStickman.getContext('2d');
-        context.beginPath();
-        context.arc(60, 25, 10, 0, Math.PI * 2, true);
-        context.stroke();
-    };
-    draw = function ($pathFromx, $pathFromy, $pathTox, $pathToy) {
-        context.moveTo($pathFromx, $pathFromy);
-        context.lineTo($pathTox, $pathToy);
-        context.stroke();
-    };
-    frame1 = function () {
-        draw(0, 150, 150, 150);
-    };
-    frame2 = function () {
-        draw(10, 0, 10, 600);
-    };
-    frame3 = function () {
-        draw(0, 5, 70, 5);
-    };
-    frame4 = function () {
-        draw(60, 5, 60, 15);
-    };
-    torso = function () {
-        draw(60, 36, 60, 70);
-    };
-    rightArm = function () {
-        draw(60, 46, 100, 50);
-    };
-    leftArm = function () {
-        draw(60, 46, 20, 50);
-    };
-    rightLeg = function () {
-        draw(60, 70, 100, 100);
-    };
-    leftLeg = function () {
-        draw(60, 70, 20, 100);
-    };
-    drawArray = [
-        rightLeg,
-        leftLeg,
-        rightArm,
-        leftArm,
-        torso,
-        head,
-        frame4,
-        frame3,
-        frame2,
-        frame1
-    ];
-    check = function () {
-        list.onclick = function () {
-            var guess = this.innerHTML;
-            this.setAttribute('class', 'active');
-            this.onclick = null;
-            for (var i = 0; i < word.length; i++) {
-                //if (window.CP.shouldStopExecution(4)) {
-                    //break;
-                //}
-                if (word[i] === guess) {
-                    guesses[i].innerHTML = guess;
-                    counter += 1;
-                }
-            }
-            //window.CP.exitedLoop(4);
-            var j = word.indexOf(guess);
-            if (j === -1) {
-                lives -= 1;
-                comments();
-                animate();
-            } else {
-                comments();
-            }
-        };
-    };
-    play = function () {
-        categories = [
-            [
-                'real madrid',
-                'paris saint-germain fc',
-                'bayern munchen',
-                'manchester united',
-                'juventus',
-                'corintians',
-                'sporting'
-            ],
-            [
-                'ronaldo',
-                'messi',
-                'neymar',
-                'bale',
-                'suarez'
-            ],
-            [
-                'germany',
-                'spain',
-                'italy',
-                'brazil',
-                'france'
-            ]
-        ];
-        chosenCategory = categories[Math.floor(Math.random() * categories.length)];
-        word = chosenCategory[Math.floor(Math.random() * chosenCategory.length)];
-        word = word.replace(/\s/g, '-');
-        console.log(word);
-        buttons();
-        guesses = [];
-        lives = 10;
-        counter = 0;
-        space = 0;
-        result();
-        comments();
-        selectCat();
-        canvas();
-    };
-    play();
-
-    hint.onclick = function () {
-        hints = [
-            [
-                'Club Team Spain',
-                '2014-2015 French Champions',
-                'German Domestic Team',
-                'Premier League',
-                'Italian League Team',
-                'Brazilian Domestic League',
-                'Portugues Sports Club'
-            ],
-            [
-                'Portuguese player in La Liga',
-                'From Argentina plays for Barcelona',
-                'Plays on Brazil National Team',
-                'From Welch plays for Real Madrid',
-                'Known as Dracula - Messi team mate'
-            ],
-            [
-                'Won 2014',
-                'Won 2010',
-                'Won 2006',
-                'Won 2002',
-                'Won 1998'
-            ]
-        ];
-        var catagoryIndex = categories.indexOf(chosenCategory);
-        var hintIndex = chosenCategory.indexOf(word);
-        showClue.innerHTML = 'Clue: - ' + hints[catagoryIndex][hintIndex];
-    };
-    document.getElementById('reset').onclick = function () {
-        correct.parentNode.removeChild(correct);
-        letters.parentNode.removeChild(letters);
-        showClue.innerHTML = '';
-        context.clearRect(0, 0, 400, 400);
-        play();
-    };
-}
-
-</script>
 </body>
 </html>
 
