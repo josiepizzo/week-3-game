@@ -4,14 +4,15 @@
     <meta charset="UTF-8">
     <title>Hang Man Game</title>
       <link rel="stylesheet" type="text/css" href="assets/css/style.css">
-      <script type="text/javascript" href="assets/js/game.js"></script>
+
       <script type="text/javascript" href="assets/js/everypage-b28d484a1c7c2779cc0ba043a653fea0.js"></script>
+
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
 </head>
-<body>
+
 <body>
 <div class="wrapper">
-   <h1>Hangman</h1>
-    <h2>JavaScript Hangman Game</h2>
+   <h1>JavaScript Hangman Game</h1>
     <p>Use the alphabet below to guess the word, or click hint to get a clue. </p>
 </div>
 
@@ -47,7 +48,8 @@
     </ul>
   </div>
       
-    <p id="catagoryName">The Chosen Category Is Soocer Players</p>
+    <p id="catagoryName">The Chosen Category Is World Cup Winning Teams</p>
+
     <div id="hold">
       <ul id="my-word">
         <li class="guess">_</li>
@@ -57,6 +59,7 @@
         <li class="guess">_</li>
       </ul>
     </div>
+
     <p id="mylives">You have 10 lives</p>
     <p id="clue">Clue -</p>  
      <canvas id="stickman">This Text will show if the Browser does NOT support HTML5 Canvas tag</canvas>
@@ -67,10 +70,8 @@
 </div>
 
 
-
-
-<script src="assets/js/stopExecutionOnTimeout.js?t=1"></script>
-<script>window.onload = function () {
+<script>
+    window.onload = function(){
     var alphabet = [
         'a',
         'b',
@@ -109,16 +110,15 @@
     var counter;
     var space;
     var showLives = document.getElementById('mylives');
-    var showCatagory = document.getElementById('scatagory');
+    var showCatagory = document.getElementById('catagory');
     var getHint = document.getElementById('hint');
     var showClue = document.getElementById('clue');
+
+
     var buttons = function () {
         myButtons = document.getElementById('buttons');
         letters = document.createElement('ul');
         for (var i = 0; i < alphabet.length; i++) {
-            if (window.CP.shouldStopExecution(1)) {
-                break;
-            }
             letters.id = 'alphabet';
             list = document.createElement('li');
             list.id = 'letter';
@@ -127,8 +127,9 @@
             myButtons.appendChild(letters);
             letters.appendChild(list);
         }
-        window.CP.exitedLoop(1);
+
     };
+
     var selectCat = function () {
         if (chosenCategory === categories[0]) {
             catagoryName.innerHTML = 'The Chosen Category Is World Wide Soccer Teams';
@@ -138,13 +139,11 @@
             catagoryName.innerHTML = 'The Chosen Category Is World Cup Winning Teams';
         }
     };
+
     result = function () {
         wordHolder = document.getElementById('hold');
         correct = document.createElement('ul');
         for (var i = 0; i < word.length; i++) {
-            if (window.CP.shouldStopExecution(2)) {
-                break;
-            }
             correct.setAttribute('id', 'my-word');
             guess = document.createElement('li');
             guess.setAttribute('class', 'guess');
@@ -158,22 +157,18 @@
             wordHolder.appendChild(correct);
             correct.appendChild(guess);
         }
-        window.CP.exitedLoop(2);
     };
+
     comments = function () {
         showLives.innerHTML = 'You have ' + lives + ' lives';
         if (lives < 1) {
             showLives.innerHTML = 'Game Over';
         }
         for (var i = 0; i < guesses.length; i++) {
-            if (window.CP.shouldStopExecution(3)) {
-                break;
-            }
             if (counter + space === guesses.length) {
                 showLives.innerHTML = 'You Win!';
             }
         }
-        window.CP.exitedLoop(3);
     };
     var animate = function () {
         var drawMe = lives;
@@ -243,15 +238,15 @@
             this.setAttribute('class', 'active');
             this.onclick = null;
             for (var i = 0; i < word.length; i++) {
-                if (window.CP.shouldStopExecution(4)) {
-                    break;
-                }
+                //if (window.CP.shouldStopExecution(4)) {
+                    //break;
+                //}
                 if (word[i] === guess) {
                     guesses[i].innerHTML = guess;
                     counter += 1;
                 }
             }
-            window.CP.exitedLoop(4);
+            //window.CP.exitedLoop(4);
             var j = word.indexOf(guess);
             if (j === -1) {
                 lives -= 1;
@@ -303,6 +298,7 @@
         canvas();
     };
     play();
+
     hint.onclick = function () {
         hints = [
             [
@@ -340,10 +336,9 @@
         context.clearRect(0, 0, 400, 400);
         play();
     };
-};
-//# sourceURL=pen.js
+}
+
 </script>
-</body>
 </body>
 </html>
 
