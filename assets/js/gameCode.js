@@ -36,18 +36,19 @@ window.onload = function(){
     var lives;              // Lives
     var counter;            // Count correct guesses
     var space;              // Number of spaces in word '-'
-    var score;               // keeps track of number of score
+    var score = 0;          // keeps track of number of score
+    //var audio = new Audio(path to audio)
 
     // Get elements
     var showLives = document.getElementById('mylives');
     var showCatagory = document.getElementById('catagory');
     var getHint = document.getElementById('hint');
     var showClue = document.getElementById('clue');
-    var scoreElement = document.getElementById('myScore');
+    var showScore = document.getElementById('myScore');
 
 
     // Create Alphabet ul
-
+ 
     var buttons = function () {
         myButtons = document.getElementById('buttons');
         letters = document.createElement('ul');
@@ -96,6 +97,7 @@ window.onload = function(){
     }
 
     // Show lives
+    var winCount = 0;
     comments = function () {
         showLives.innerHTML = 'You have ' + lives + ' lives';
         if (lives < 1) {
@@ -103,17 +105,15 @@ window.onload = function(){
         }
         for (var i = 0; i < guesses.length; i++) {
             if (counter + space === guesses.length) {
-                showLives.innerHTML = 'You Win!';
+                i = guesses.length;
+                showLives.innerHTML = 'You Win!' 
+                //audio.play();
+                score++;
+                showScore.innerHTML = score;
             }
         }
     }
-
-    // Show Wins
-    var score=0;
-    function resetScore(){
-        score=0;
-        document.getElementById('myScore').value=score;
-    }    
+   
 
     // Animate man
     var animate = function () {
@@ -190,15 +190,13 @@ window.onload = function(){
             this.setAttribute('class', 'active');
             this.onclick = null;
             for (var i = 0; i < word.length; i++) {
-                //if (window.CP.shouldStopExecution(4)) {
-                    //break;
-                //}
+
                 if (word[i] === guess) {
                     guesses[i].innerHTML = guess;
                     counter += 1;
                 }
             }
-            //window.CP.exitedLoop(4);
+
             var j = (word.indexOf(guess));
             if (j === -1) {
                 lives -= 1;
@@ -239,7 +237,7 @@ window.onload = function(){
         ];
         chosenCategory = categories[Math.floor(Math.random() * categories.length)];
         word = chosenCategory[Math.floor(Math.random() * chosenCategory.length)];
-        word = word.replace(/\s/g, '-');
+        word = word.replace(/\s/g, '-'); //regular expression
         console.log(word);
         buttons();
 
